@@ -1,12 +1,12 @@
 services:
   - type: web
-    name: applytoai
-    runtime: python
-    buildCommand: |
-      cd frontend && npm install && npm run build
+    name: aiapply-backend
+    env: python
+    buildCommand: ""
     startCommand: gunicorn app:app
-    workingDir: backend 
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.10
+      - key: PORT
+        value: 10000
+    plan: free
+    rootDir: backend  # <--- THIS tells Render to look in backend/
 
