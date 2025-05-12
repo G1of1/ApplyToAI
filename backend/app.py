@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
+import pytesseract
 
 
 load_dotenv()  # Load variables from .env into environment
