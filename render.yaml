@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: applytoai
+    runtime: python
+    buildCommand: |
+      cd frontend && npm install && npm run build
+    startCommand: gunicorn app:app --chdir backend
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
