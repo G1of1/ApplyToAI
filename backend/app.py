@@ -3,7 +3,7 @@ import textract
 from werkzeug.utils import secure_filename
 import tempfile
 from google import genai
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
@@ -17,9 +17,14 @@ client = genai.Client(api_key=api_key)
 app = Flask(__name__, static_folder="../frontend/dist", static_url_path="")
 CORS(app, origins="http://localhost:5173")
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return send_from_directory(app.static_folder, "index.html")
+
+@app.route("/<path:path>")
+def serve_static(path):
+    return send_from_directory(app.static_folder, path)
+
 
 @app.route('/extract', methods=['POST'])
 def extract_text():
