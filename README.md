@@ -1,8 +1,9 @@
-AI Resume Analyzer
+# 🤖ApplyToAI
+## Boost your job applications with ApplyToAI. Analyze your resume and cover letter using AI to get personalized feedback, improvement tips, and professional scores.
 
-Uses Gemini API to review resume and provide feedback and suggestions.
-
-Technologies Used:
-Node.js
-Flask
-TailwindCSS
+### Technologies Used
+- React
+- Tailwind CSS
+- TypeScript
+- Flask
+- Gemini 2.0 API
