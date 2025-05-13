@@ -14,7 +14,7 @@ api_key = os.getenv("apiKey")
 
 client = genai.Client(api_key=api_key)
 
-app = Flask(__name__, static_folder="frontend/dist", static_url_path="")
+app = Flask(__name__, static_folder="frontend\dist", static_url_path="")
 CORS(app)
 
 @app.route("/")
