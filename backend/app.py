@@ -14,7 +14,7 @@ api_key = os.getenv("apiKey")
 
 client = genai.Client(api_key=api_key)
 
-app = Flask(__name__, static_folder="frontend\dist", static_url_path="")
+app = Flask(__name__, static_folder="/frontend/dist", static_url_path="")
 CORS(app)
 
 @app.route('/')
@@ -28,6 +28,15 @@ def static_proxy(path):
         return send_from_directory(app.static_folder, path)
     else:
         return send_from_directory(app.static_folder, 'index.html')
+    
+
+@app.route('/debug/check-index')
+def check_index():
+    index_path = os.path.join(app.static_folder, 'index.html')
+    if os.path.exists(index_path):
+        return f"index.html FOUND at {index_path}"
+    else:
+        return f"index.html NOT FOUND at {index_path}", 404
 
 @app.route('/extract', methods=['POST'])
 def extract_text():
@@ -129,15 +138,3 @@ def getCoverLetterFeedback():
 if __name__ == "__main__":
     app.run(debug=True)
     
-
-'''if __name__ == "__main__":
-    pdf_path = input("Enter path to resume PDF: ")
-    text = extractPDF(pdf_path)
-
-    target_role = input("Enter target job role (e.g. 'Data Analyst'): ")
-    feedback = getCoverLetterFeedback(text, target_role)
-
-    print("\n===== AI Feedback =====")
-    print(feedback)'''
-
-
