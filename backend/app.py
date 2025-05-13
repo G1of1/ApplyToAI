@@ -17,14 +17,17 @@ client = genai.Client(api_key=api_key)
 app = Flask(__name__, static_folder="frontend\dist", static_url_path="")
 CORS(app)
 
-@app.route("/")
+@app.route('/')
 def index():
     return send_from_directory(app.static_folder, "index.html")
 
-@app.route("/<path:path>")
-def serve_static(path):
-    return send_from_directory(app.static_folder, path)
-
+@app.route('/<path:path>')
+def static_proxy(path):
+    file_path = os.path.join(app.static_folder, path)
+    if os.path.exists(file_path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/extract', methods=['POST'])
 def extract_text():
