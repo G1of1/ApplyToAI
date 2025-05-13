@@ -3,6 +3,9 @@ import textract
 from werkzeug.utils import secure_filename
 import tempfile
 from google import genai
+import logging
+from datetime import datetime
+from flask import request
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
@@ -43,6 +46,7 @@ def check_index():
 
 @app.route('/api/extract', methods=['POST'])
 def extract_text():
+    print(f"[extract_text] Accessed via {request.user_agent.platform} on {request.user_agent.browser}")
     if 'file' not in request.files:
         return jsonify({"error": "Please include your document"}), 400
 
@@ -73,6 +77,7 @@ def extract_text():
                     text += pytesseract.image_to_string(img)
 
         os.remove(tmp_path)
+        logging.info(f"[extract_text] Request from {request.remote_addr} | {request.user_agent}")
         return jsonify({"text": text}), 200
 
     except Exception as e:
@@ -81,6 +86,7 @@ def extract_text():
     
 @app.route('/api/resfeedback', methods=['POST'])
 def getResumeFeedback():
+    print(f"[getResumeFeedback] Accessed via {request.user_agent.platform} on {request.user_agent.browser}")
     resume = request.form.get('resume')
     targetrole = request.form.get('targetrole')
     
@@ -109,6 +115,7 @@ def getResumeFeedback():
 
 @app.route('/api/clfeedback', methods=['POST'])
 def getCoverLetterFeedback():
+    print(f"[getCoverLetterFeedback] Accessed via {request.user_agent.platform} on {request.user_agent.browser}")
     letter = request.form.get('letter')
     role = request.form.get('role')
 
