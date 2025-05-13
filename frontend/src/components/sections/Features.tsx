@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom';
 const Features: React.FC = () => {
     return (
       <section className=" text-blue-200 py-16 px-4">
@@ -16,7 +16,7 @@ const Features: React.FC = () => {
             {/* Resume Analyzer */}
             <div className="bg7 p-6 rounded-xl shadow hover:shadow-lg transition duration-300 hover:translate-y-[-8px]">
               <h3 className="text-2xl font-semibold mb-4 text-blue-400">
-                <a href="resume-analyzer">AI Resume Analyzer</a>
+                <Link to="/resume-analyzer">AI Resume Analyzer</Link>
               </h3>
               <ul className="list-disc list-inside space-y-2 text-blue-200 text-left">
                 <li>Instant feedback on resume effectiveness</li>
@@ -29,7 +29,7 @@ const Features: React.FC = () => {
             {/* Cover Letter Analyzer */}
             <div className="bg7 p-6 rounded-xl shadow hover:shadow-lg transition duration-300 hover:translate-y-[-8px]">
               <h3 className="text-2xl font-semibold mb-4 text-blue-400">
-                <a href="cover-letter-analyzer">AI Cover Letter Analyzer</a>
+                <Link to="/cover-letter-analyzer">AI Cover Letter Analyzer</Link>
               </h3>
               <ul className="list-disc list-inside space-y-2 text-blue-200 text-left">
                 <li>Industry-specific feedback tailored to your role</li>

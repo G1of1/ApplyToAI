@@ -16,7 +16,6 @@ const CoverLetterAnalyzer = () => {
       
       if(file) {
         const text = await getLetter(file);
-        console.log(text);
 
         if(text) {
           getCoverLetterFeedback({letter: text, role}, {
@@ -29,7 +28,6 @@ const CoverLetterAnalyzer = () => {
           }
           
         })
-        console.log(result);
         }
         
       }

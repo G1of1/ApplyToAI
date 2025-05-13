@@ -5,7 +5,7 @@ const getResume = async (file: File) => {
         formData.append("file", file);
         
             try {
-              const res = await fetch("http://localhost:5000/extract", {
+              const res = await fetch("/api/extract", {
                 method: "POST",
                 body: formData,
               });

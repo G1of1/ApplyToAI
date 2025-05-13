@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Hero: React.FC = () => {
   return (
@@ -11,18 +12,18 @@ const Hero: React.FC = () => {
               Get personalized feedback on your resume and cover letter. Stand out to recruiters with our AI-powered tools.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a
-                href="/resume-analyzer"
+              <Link
+                to="/resume-analyzer"
                 className="bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-blue-500 transition"
               >
                 Try Resume Analyzer
-              </a>
-              <a
-                href="/cover-letter-analyzer"
+              </Link>
+              <Link
+                to="/cover-letter-analyzer"
                 className="bg-transparent border border-blue-500 text-blue-300 font-semibold py-3 px-6 rounded-xl hover:bg-blue-600 hover:text-white transition"
               >
                 Try Cover Letter Analyzer
-              </a>
+              </Link>
             </div>
           </div>
         </section>

@@ -10,8 +10,7 @@ const useFeedBack = () => {
       const formData = new FormData();
       formData.append("resume", resume);
       formData.append("targetrole", role);
-      console.log(formData);
-      const res = await fetch("http://localhost:5000/resfeedback", {
+      const res = await fetch("/api/resfeedback", {
         method: "POST",
         body: formData,
       });

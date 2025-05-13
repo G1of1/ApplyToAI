@@ -6,8 +6,7 @@ const useGetCoverLetterFeedback = () => {
         const formData = new FormData();
         formData.append("letter", letter);
         formData.append("role", role);
-        console.log(formData)
-        const res = await fetch("http://localhost:5000/clfeedback", {
+        const res = await fetch("/api/clfeedback", {
         method: "POST",
         body: formData,
       });

@@ -41,7 +41,7 @@ def check_index():
     else:
         return f"index.html NOT FOUND at {index_path}", 404
 
-@app.route('/extract', methods=['POST'])
+@app.route('/api/extract', methods=['POST'])
 def extract_text():
     if 'file' not in request.files:
         return jsonify({"error": "Please include your document"}), 400
@@ -79,7 +79,7 @@ def extract_text():
         return jsonify({"error": f"Error extracting the document: {str(e)}"}), 500
     
     
-@app.route('/resfeedback', methods=['POST'])
+@app.route('/api/resfeedback', methods=['POST'])
 def getResumeFeedback():
     resume = request.form.get('resume')
     targetrole = request.form.get('targetrole')
@@ -107,7 +107,7 @@ def getResumeFeedback():
         return jsonify({"error": f"Error getting feedback: {str(e)}"}), 500
 
 
-@app.route('/clfeedback', methods=['POST'])
+@app.route('/api/clfeedback', methods=['POST'])
 def getCoverLetterFeedback():
     letter = request.form.get('letter')
     role = request.form.get('role')
