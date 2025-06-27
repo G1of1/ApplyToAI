@@ -15,6 +15,7 @@ from PIL import Image
 import requests
 import traceback
 import re
+import pytesseract
 load_dotenv()  # Load variables from .env into environment
 api_key = os.getenv("apiKey")
 client = genai.Client(api_key=api_key)
