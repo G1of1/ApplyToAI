@@ -19,7 +19,7 @@ const getLetter = async (file: File) => {
               return data.text;
             } catch (error) {
               console.error("Error while extracting resume:", error);
-              toast.error(error as string)
+              toast.error("Error extracting resume😥...")
             }
             
     }

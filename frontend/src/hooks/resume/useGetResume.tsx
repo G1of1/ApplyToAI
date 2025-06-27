@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 //Extract text for resume analyzer
 const getResume = async (file: File) => {
     if (file) {
@@ -16,6 +18,7 @@ const getResume = async (file: File) => {
               }
               return data.text;
             } catch (error) {
+              toast.error("Error extracting resume😥...")
               console.error("Error while extracting resume:", error);
             }
             

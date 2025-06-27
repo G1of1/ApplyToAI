@@ -1,3 +1,4 @@
+from bs4 import BeautifulSoup
 import fitz
 import textract
 from werkzeug.utils import secure_filename
@@ -5,16 +6,17 @@ import tempfile
 from google import genai
 import logging
 from datetime import datetime
-from flask import request
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
-
-
+import pytesseract
+from PIL import Image
+import requests
+import traceback
+import re
 load_dotenv()  # Load variables from .env into environment
 api_key = os.getenv("apiKey")
-
 client = genai.Client(api_key=api_key)
 
 frontend_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'frontend', 'dist')
@@ -46,7 +48,6 @@ def check_index():
 
 @app.route('/api/extract', methods=['POST'])
 def extract_text():
-    print(f"[extract_text] Accessed via {request.user_agent.platform} on {request.user_agent.browser}")
     if 'file' not in request.files:
         return jsonify({"error": "Please include your document"}), 400
 
@@ -57,7 +58,6 @@ def extract_text():
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(filename)[1]) as tmp:
             file.save(tmp.name)
             tmp_path = tmp.name
-
         try:
             # Try textract first
             text = textract.process(tmp_path).decode('utf-8')
@@ -81,8 +81,10 @@ def extract_text():
         return jsonify({"text": text}), 200
 
     except Exception as e:
-        return jsonify({"error": f"Error extracting the document: {str(e)}"}), 500
-    
+        logging.error(f"Exception: {str(e)}")
+        traceback.print_exc()
+        return jsonify({"error": f"Error extracting resume: {str(e)}"}), 500
+
     
 @app.route('/api/resfeedback', methods=['POST'])
 def getResumeFeedback():
@@ -107,10 +109,16 @@ def getResumeFeedback():
         5. Give an overall  resume score from 1 to 10 explaining your reasoning behind the score.
         """
         response = client.models.generate_content(model = "gemini-2.0-flash", contents=prompt)
-        return jsonify({"feedback": response.text}), 200
+        cleanedText = clean_feedback_text(response.text)
+        return jsonify({"feedback": cleanedText}), 200
     
     except Exception as e:
+        logging.error(f"Exception: {str(e)}")
+        traceback.print_exc()
         return jsonify({"error": f"Error getting feedback: {str(e)}"}), 500
+    
+    
+    
 
 
 @app.route('/api/clfeedback', methods=['POST'])
@@ -140,11 +148,73 @@ def getCoverLetterFeedback():
         {letter}'''
         
         response = client.models.generate_content(model = "gemini-2.0-flash", contents=prompt)
-        return jsonify({"feedback": response.text}), 200
+        cleanedText = clean_feedback_text(response.text) 
+        return jsonify({"feedback": cleanedText}), 200
     except Exception as e:
         return jsonify({"error": f"Error getting feedback: {str(e)}"}), 500
+    
+
+@app.route('/api/generateCL', methods=['POST'])
+def generateCoverLetter():
+    resume = request.form.get('resume')
+    job = request.form.get('job')
+    company = request.form.get('company')
+    role = request.form.get('role')
+    name = request.form.get('username')
+
+    if not resume or not role:
+        return jsonify({"error": "Missing resume or role"}), 400
+    
+    if not company or not job:
+        return jsonify({"error": "Missing company name or job description"}), 400
+    
+    try:
+        prompt = f'''You are an expert career coach and professional cover letter writer.
+
+        Given the following:
+        - Resume text: {resume}
+        - Job Description: {job}
+        - Candidate Name: {name}
+        - Company: {company}
+        - Position Title: {role}
+
+        Write a concise and compelling cover letter tailored to this role. Follow these rules:
+        1. Address it to the hiring manager or leave it general if not known.
+        2. Highlight the candidate’s most relevant skills and experience.
+        3. Be professional and enthusiastic.
+        4. Keep it under 400 words.
+        5. End with a clear closing and call to action.
+
+        Return only the completed cover letter text, no headers or notes.
+        '''
+        response = client.models.generate_content(model = "gemini-2.0-flash", contents=prompt)
+
+        cleanedText = clean_feedback_text(response.text)
+
+        return jsonify({"coverLetter": cleanedText}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error getting feedback: {str(e)}"}), 500
+
+
+def clean_feedback_text(raw_text):
+    # Remove markdown bold **text**
+    cleaned = re.sub(r'\*\*(.*?)\*\*', r'\1', raw_text)
+
+    # Remove single asterisk bullets * text
+    cleaned = re.sub(r'^\s*[\*•\-]\s+', '', cleaned, flags=re.MULTILINE)
+
+    # Replace multiple newlines with 2 newlines max
+    cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)
+
+    # Strip excessive spaces
+    return cleaned.strip()
+
+
+
 
 
 if __name__ == "__main__":
     app.run(debug=True)
     
+
+

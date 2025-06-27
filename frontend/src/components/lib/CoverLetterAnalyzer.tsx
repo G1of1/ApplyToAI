@@ -3,6 +3,7 @@ import { useState, ChangeEvent, FormEvent} from 'react';
 import useGetCoverLetterFeedback from '../../hooks/coverletter/useGetFeedback';
 import getLetter from '../../hooks/coverletter/useGetLetter';
 import Spinner from '../skeleton/Spinner';
+import { toast } from 'sonner';
 
 const CoverLetterAnalyzer = () => {
   const [file, setFile] = useState<File | any>();
@@ -21,7 +22,8 @@ const CoverLetterAnalyzer = () => {
         if(text) {
           getCoverLetterFeedback({letter: text, role}, {
           onSuccess: (data) => {
-            setResult(data)
+            setResult(data);
+            toast.success("Cover Letter Analyzed");
           },
           onError: (error) => {
             console.error("Error getting feedback", error)

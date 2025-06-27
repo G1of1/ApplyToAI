@@ -1,4 +1,3 @@
-import React from 'react';
 import ResumeAnalyzer from '../components/lib/ResumeAnalyzer';
 
 const Resume = () => {

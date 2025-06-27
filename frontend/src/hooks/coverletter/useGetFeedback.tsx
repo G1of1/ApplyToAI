@@ -16,7 +16,7 @@ const useGetCoverLetterFeedback = () => {
 
         if(!res.ok || data.error) {
           toast.error(data.error);
-          throw new Error(data.error || "Unknown server error")
+          console.error(data.error);
         }
         return data.feedback as string
       }

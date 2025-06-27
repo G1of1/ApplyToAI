@@ -1,4 +1,3 @@
-import React from 'react';
 import CoverLetterAnalyzer from '../components/lib/CoverLetterAnalyzer';
 
 const CoverLetter = () => {

@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const useCoverLetterGenerator = () => {
     const {mutate: getCoverLetter, isPending: isLoading } = useMutation<string, Error, {role: string, name: string, job: string, company: string, resume: string}>({
@@ -17,10 +18,11 @@ const useCoverLetterGenerator = () => {
             })
             const data = await res.json();
             if(!res.ok || data.error) {
-                throw new Error(data.error || "Unknown Server Error")
+                toast.error("Error generating cover letter😥...")
+                console.error(data.error);
             }
 
-            return data.coverletter as string;
+            return data.coverLetter as string;
 
 
         }

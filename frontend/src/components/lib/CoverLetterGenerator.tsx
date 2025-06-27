@@ -6,7 +6,6 @@ import Spinner from '../skeleton/Spinner';
 
 const CoverLetterGenerator = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [resume, setResume] = useState<string | any>('');
   const [role, setRole] = useState<string>('');
   const [company, setCompany] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -27,20 +26,14 @@ const CoverLetterGenerator = () => {
 
     if (file) {
       const text = await getLetter(file);
-      setResume(text);
 
       if (text) {
-        console.log("Resume: ", resume);
-        console.log("Job: ", job);
-        console.log("Name: ", name);
-        console.log("Company: ", company);
-        console.log("Role: ", role);
-
         getCoverLetter(
           { job, resume: text, role, name, company },
           {
             onSuccess: (data) => {
               setResult(data);
+              console.log("Result: ", result);
               toast.success('Cover Letter Generated');
             },
             onError: (error) => {

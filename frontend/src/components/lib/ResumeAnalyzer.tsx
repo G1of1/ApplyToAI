@@ -2,6 +2,7 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Spinner from "../skeleton/Spinner";
 import getResume from "../../hooks/resume/useGetResume";
 import useFeedBack from "../../hooks/resume/useGetFeedback";
+import { toast } from "sonner";
 function ResumeAnalyzer() {
   const [file, setFile] = useState<File | null>(null);
   const [role, setRole] = useState<string>("");
@@ -20,6 +21,7 @@ function ResumeAnalyzer() {
       {
         onSuccess: (data) => {
           setResult(data); // Store it in React state
+          toast.success("Resume analyzed");
         },
         onError: (error) => {
           console.error("Error fetching feedback:", error);
@@ -71,7 +73,6 @@ function ResumeAnalyzer() {
               className="w-full border border-gray-300 rounded-md p-2 text-black"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              required
             />
           </div>
 

@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const useFeedBack = () => {
   const { mutate: getResumeFeedback, isPending: isLoading } = useMutation<
@@ -18,7 +19,8 @@ const useFeedBack = () => {
       const data = await res.json();
 
       if (!res.ok || data.error) {
-        throw new Error(data.error || "Unknown server error");
+        toast.error("Error providing feedback😥...")
+        console.error(data.error);
       }
 
       return data.feedback as string;
