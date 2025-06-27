@@ -8,6 +8,7 @@ const CoverLetterAnalyzer = () => {
   const [file, setFile] = useState<File | any>();
   const [role, setRole] = useState<string>("");
   const [result, setResult] = useState<string>("");
+  
 
     const {getCoverLetterFeedback, isLoading } = useGetCoverLetterFeedback();
 

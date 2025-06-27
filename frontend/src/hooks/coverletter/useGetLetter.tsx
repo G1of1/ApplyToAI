@@ -1,5 +1,6 @@
+import { toast } from "sonner";
 
-//Get the text for cover letter analyzer
+// Safely extract text from uploaded file
 const getLetter = async (file: File) => {
     if (file) {
         const formData = new FormData();
@@ -18,6 +19,7 @@ const getLetter = async (file: File) => {
               return data.text;
             } catch (error) {
               console.error("Error while extracting resume:", error);
+              toast.error(error as string)
             }
             
     }

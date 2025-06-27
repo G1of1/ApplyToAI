@@ -1,49 +1,43 @@
+import React from 'react';
+import ResumeAnalyzer from '../components/lib/ResumeAnalyzer';
 
-import ResumeAnalyzer from '../components/lib/ResumeAnalyzer'
 const Resume = () => {
-
   return (
-    <>
-    <section className="min-h-[100vh] flex items-center justify-center px-4 py-14">
-        <div className="max-w-full flex flex-col">
-          <div className="w-full min-h-1 text-center text-blue-400 mt-4">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight">
+    <section className="min-h-[100vh] flex items-center justify-center px-4 py-14 text-blue-200">
+      <div className="w-full max-w-5xl">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-blue-400">
             AI-Powered Resume Analyzer
-            </h1>
-            <p className="text-lg sm:text-xl mb-8">
-              Level Up Your Job Hunt – Upload Your Resume
-            </p>
-            </div>
-            <div className="sm:flex items-center flex-col">
-            <div className="bg7 max-w-2xl sm:flex-row justify-center gap-4 rounded-xl text-white">
-                <h1 className="text-md sm:text-2xl font-bold mb-6 leading-tight m-5">
-            How the analyzer works:
-            </h1>
-            <p className="text-lg sm:text-xl m-5">
-              1. Upload your resume
-            </p>
-            <p className="text-sm sm: text-md mb-8 m-5">
-                (PDF and DOCX)
-            </p>
-            <p className="text-lg sm:text-xl m-5">
-                2. Add target role
-            </p>
-            <p className="text-sm sm: text-md mb-8 m-5">
-                Include the job role to receive tailored feedback and match analysis.
-            </p>
-            <p className="text-lg sm:text-xl m-5">
-                3. Get instant analysis
-            </p>
-            </div>
-          
-          <ResumeAnalyzer />
-          </div>
-          </div>
-        </section>
-        
-        
-        </>
-  )
-}
+          </h1>
+          <p className="text-lg sm:text-xl text-blue-300">
+            Level Up Your Job Hunt – Upload Your Resume for expert feedback.
+          </p>
+        </div>
 
-export default Resume
+        {/* How it works card */}
+        <div className="bg7 rounded-xl shadow-lg p-6 md:p-10 mb-10">
+          <h2 className="text-2xl font-semibold text-blue-400 mb-4">How the analyzer works:</h2>
+          <ul className="space-y-4 text-blue-200 list-decimal list-inside">
+            <li>
+              <strong>Upload your Resume</strong> — Supported formats: PDF, DOCX.
+            </li>
+            <li>
+              <strong>Add the target role</strong> — Get personalized, role-specific insights and keyword matches.
+            </li>
+            <li>
+              <strong>Receive instant AI-powered analysis</strong> — Including summary, strengths, and score.
+            </li>
+          </ul>
+        </div>
+
+        {/* Analyzer Component */}
+        <div className="bg7 rounded-xl p-6 md:p-8 shadow-md">
+          <ResumeAnalyzer />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Resume;

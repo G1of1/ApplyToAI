@@ -1,49 +1,43 @@
-
-import CoverLetterAnalyzer from '../components/lib/CoverLetterAnalyzer'
+import React from 'react';
+import CoverLetterAnalyzer from '../components/lib/CoverLetterAnalyzer';
 
 const CoverLetter = () => {
   return (
-    <>
-    <section className="min-h-[100vh] flex items-center justify-center px-4 py-14">
-        <div className="max-w-full flex flex-col">
-          <div className="w-full min-h-1 text-center text-blue-400 mt-4">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight">
+    <section className="min-h-[100vh] flex items-center justify-center px-4 py-14 text-blue-200">
+      <div className="w-full max-w-5xl">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-blue-400">
             AI-Powered Cover Letter Analyzer
-            </h1>
-            <p className="text-lg sm:text-xl mb-8">
-              Stand out to recruiters - Upload your Cover Letter
-            </p>
-            </div>
-            <div className="sm:flex items-center flex-col">
-            <div className="bg7 sm:flex-row justify-center gap-4 rounded-xl text-white">
-                <h1 className="text-md sm:text-2xl font-bold mb-6 leading-tight m-5">
-            How the analyzer works:
-            </h1>
-            <p className="text-lg sm:text-xl m-5">
-              1. Upload your Cover Letter
-            </p>
-            <p className="text-sm sm: text-md mb-8 m-5">
-                (PDF and DOCX)
-            </p>
-            <p className="text-lg sm:text-xl m-5">
-                2. Add target role
-            </p>
-            <p className="text-sm sm: text-md mb-8 m-5">
-                Include the job role to receive tailored feedback and match analysis.
-            </p>
-            <p className="text-lg sm:text-xl m-5">
-                3. Get instant analysis
-            </p>
-            </div>
-          
-          <CoverLetterAnalyzer />
-          </div>
-          </div>
-        </section>
-        
-        
-        </>
-  )
-}
+          </h1>
+          <p className="text-lg sm:text-xl text-blue-300">
+            Stand out to recruiters — Upload your Cover Letter for instant insights.
+          </p>
+        </div>
 
-export default CoverLetter
+        {/* How it works card */}
+        <div className="bg7 rounded-xl shadow-lg p-6 md:p-10 mb-10">
+          <h2 className="text-2xl font-semibold text-blue-400 mb-4">How the analyzer works:</h2>
+          <ul className="space-y-4 text-blue-200 list-decimal list-inside">
+            <li>
+              <strong>Upload your Cover Letter</strong> — Supported formats: PDF, DOCX.
+            </li>
+            <li>
+              <strong>Add the target role</strong> — Get personalized, role-specific feedback.
+            </li>
+            <li>
+              <strong>Receive instant AI-powered analysis</strong> — Includes clarity, alignment, grammar, and suggestions.
+            </li>
+          </ul>
+        </div>
+
+        {/* Analyzer Component */}
+        <div className="bg7 rounded-xl p-6 md:p-8 shadow-md">
+          <CoverLetterAnalyzer />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default CoverLetter;
