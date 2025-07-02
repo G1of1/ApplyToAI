@@ -6,4 +6,7 @@
 - Tailwind CSS
 - TypeScript
 - Flask
+- SQLAlchemy
+- Supabase
+- SQL
 - Gemini 2.0 API
