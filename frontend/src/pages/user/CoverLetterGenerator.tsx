@@ -1,4 +1,4 @@
-import CoverLetterGenerator from '../components/lib/CoverLetterGenerator';
+import CoverLetterGenerator from "../../components/lib/CoverLetterGenerator";
 
 
 const CoverLetterGenPage = () => {

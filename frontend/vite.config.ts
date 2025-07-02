@@ -5,7 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://localhost:5000',  // assuming Flask runs on 5000 locally
+  
+      '/api': {
+        target: 'http://localhost:5000'
+      },
     },
   },
 })

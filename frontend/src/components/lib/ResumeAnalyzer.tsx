@@ -3,18 +3,24 @@ import Spinner from "../skeleton/Spinner";
 import getResume from "../../hooks/resume/useGetResume";
 import useFeedBack from "../../hooks/resume/useGetFeedback";
 import { toast } from "sonner";
+import { useUser } from "@supabase/auth-helpers-react";
+import useSaveFeedback from "../../hooks/feedback/useSaveFeedback";
 function ResumeAnalyzer() {
   const [file, setFile] = useState<File | null>(null);
   const [role, setRole] = useState<string>("");
   const [result, setResult] = useState<string>("");
+  const [resume, setResume] = useState<string>("");
+  const user = useUser();
   
   const { getResumeFeedback, isLoading } = useFeedBack();
+  const {saveFeedback, isLoading: isSaving } = useSaveFeedback();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!file) return;
     const text = await getResume(file);
+    setResume(text);
 
     getResumeFeedback(
       { resume: text, role },
@@ -43,9 +49,20 @@ function ResumeAnalyzer() {
         console.log(selectedFile); // Allow same file to be selected again
       }
     };
+
+    const handleSaveFeedback = () => {
+      saveFeedback({id: user?.id as string, type: "ResumeFeedback", content: resume, feedback: result}, {
+        onSuccess: (data) => {
+          toast.success(data)
+        },
+        onError: (error) => {
+          toast.error(`${error}`)
+        }
+      });
+    }
   useEffect(() => {
     if(file) {
-      console.log(`New File: ${file}`)
+      toast.info(`File Uploaded: ${file}`)
     }
   }, [file])
   return (
@@ -90,10 +107,15 @@ function ResumeAnalyzer() {
         </div>
         )}
       {result && !isLoading && (
+        <>
       <div className="mt-8 bg-gray-100 p-4 rounded-lg border border-gray-200">
         <h2 className="text-xl font-bold mb-2 text-gray-700">AI Feedback:</h2>
         <pre className="text-wrap text-black font-poppins">{result}</pre>
       </div>
+      <button className="bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700" onClick={handleSaveFeedback}>
+        {isSaving ? "Saving..." : "Save"}
+      </button>
+      </>
       )}
       </div>
     </div>

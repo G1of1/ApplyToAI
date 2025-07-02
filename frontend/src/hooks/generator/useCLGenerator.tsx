@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { supabase } from "../../supbaseClient";
 
 const useCoverLetterGenerator = () => {
     const {mutate: getCoverLetter, isPending: isLoading } = useMutation<string, Error, {role: string, name: string, job: string, company: string, resume: string}>({
@@ -11,9 +12,11 @@ const useCoverLetterGenerator = () => {
             formData.append('job', job);
             formData.append('company', company);
             formData.append('resume', resume);
-
+            
+            const token = await supabase.auth.getSession().then((res) => res.data.session?.access_token);
             const res = await fetch('/api/generateCL', {
                 method: "POST",
+                headers: { "Authorization": `Bearer ${token}`},
                 body: formData
             })
             const data = await res.json();

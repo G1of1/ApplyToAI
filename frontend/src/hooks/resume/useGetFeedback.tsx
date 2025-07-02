@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { supabase } from "../../supbaseClient";
 
 const useFeedBack = () => {
   const { mutate: getResumeFeedback, isPending: isLoading } = useMutation<
@@ -11,8 +12,12 @@ const useFeedBack = () => {
       const formData = new FormData();
       formData.append("resume", resume);
       formData.append("targetrole", role);
+
+      const token = await supabase.auth.getSession().then((res) => res.data.session?.access_token);
+      
       const res = await fetch("/api/resfeedback", {
         method: "POST",
+        headers: { "Authorization": `Bearer ${token}`},
         body: formData,
       });
 

@@ -4,20 +4,26 @@ import useGetCoverLetterFeedback from '../../hooks/coverletter/useGetFeedback';
 import getLetter from '../../hooks/coverletter/useGetLetter';
 import Spinner from '../skeleton/Spinner';
 import { toast } from 'sonner';
+import useSaveFeedback from '../../hooks/feedback/useSaveFeedback';
+import { useUser } from '@supabase/auth-helpers-react';
 
 const CoverLetterAnalyzer = () => {
   const [file, setFile] = useState<File | any>();
   const [role, setRole] = useState<string>("");
+  const [letter, setLetter] = useState<string>("");
   const [result, setResult] = useState<string>("");
+  const user = useUser();
   
 
     const {getCoverLetterFeedback, isLoading } = useGetCoverLetterFeedback();
+    const {saveFeedback, isLoading: isSaving } = useSaveFeedback();
 
     const handleSubmit =  async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       
       if(file) {
         const text = await getLetter(file);
+        setLetter(text);
 
         if(text) {
           getCoverLetterFeedback({letter: text, role}, {
@@ -43,9 +49,20 @@ const CoverLetterAnalyzer = () => {
         console.log(selectedFile); // Allow same file to be selected again
       }
     };
+
+    const handleSaveFeedback = () => {
+      saveFeedback({id: user?.id as string, type: "CoverLetterFeedback", content: letter, feedback: result}, {
+        onSuccess: (data) => {
+          toast.success(data)
+        },
+        onError: (error) => {
+          toast.error(`${error}`)
+        }
+      });
+    }
     useEffect(()=> {
       if (file) {
-        console.log("New File: ", file)
+        toast.info(`File Uploaded: ${file}`)
       }
     }, [file])
 
@@ -93,10 +110,17 @@ const CoverLetterAnalyzer = () => {
         </div>
         )}
       {result && !isLoading && (
+        <>
       <div className="mt-8 bg-gray-100 p-4 rounded-lg border border-gray-200">
         <h2 className="text-xl font-bold mb-2 text-gray-700">AI Feedback:</h2>
         <pre className="text-wrap text-black font-poppins">{result}</pre>
       </div>
+      <button className="bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-700" onClick={handleSaveFeedback}>
+        {isSaving ? "Saving..." : "Save"}
+      </button>
+      </>
+
+
       )}
       </div>
     </div>
