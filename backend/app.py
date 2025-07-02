@@ -1,14 +1,10 @@
-
 from google import genai
-
-from flask import Flask, request, jsonify, send_from_directory, render_template
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
-import pytesseract
-from config.config import Config
+from backend.config.config import Config
 from controller import resume, coverletter, extract
-from flask_sqlalchemy import SQLAlchemy
 from routes import coverletter, resume, extract, feedback
 from extensions import db 
 
