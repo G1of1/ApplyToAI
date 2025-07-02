@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from models.feedback import Feedback
 from extensions import db
-from controller.auth import verify_supabase_token
+from backend.controller.auth import verify_supabase_token
 
 # Save feedback
 def save_feedback():

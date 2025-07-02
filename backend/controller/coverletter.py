@@ -3,7 +3,7 @@ from flask import  request, jsonify
 import os
 from dotenv import load_dotenv
 import re
-from controller import auth
+from backend.controller import auth
 
 load_dotenv()  # Load variables from .env into environment
 api_key = os.getenv("apiKey")

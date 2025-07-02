@@ -9,7 +9,7 @@ import pytesseract
 from PIL import Image
 import traceback
 import pytesseract
-from controller import auth
+from backend.controller import auth
 
 
 def extract_text():
