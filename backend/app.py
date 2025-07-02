@@ -4,9 +4,9 @@ from flask_cors import CORS
 import os
 from dotenv import load_dotenv
 from backend.config.config import Config
-from controller import resume, coverletter, extract
-from routes import coverletter, resume, extract, feedback
-from extensions import db 
+from backend.controller import resume, coverletter, extract
+from backend.routes import coverletter, resume, extract, feedback
+from backend.extensions import db 
 
 
 
