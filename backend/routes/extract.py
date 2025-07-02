@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from controller import extract
+from backend.controller import extract
 
 ex_routes = Blueprint('ex_routes', __name__)
 

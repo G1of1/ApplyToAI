@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controller import feedback
+from backend.controller import feedback
 
 fb_routes = Blueprint('fb_routes', __name__)
 

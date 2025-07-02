@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from controller import coverletter
+from backend.controller import coverletter
 
 cl_routes = Blueprint('cl_routes', __name__)
 

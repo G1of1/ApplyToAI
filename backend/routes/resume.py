@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from controller import resume
+from backend.controller import resume
 
 res_routes = Blueprint('res_routes', __name__)
 
