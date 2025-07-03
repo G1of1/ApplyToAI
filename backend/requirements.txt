@@ -100,7 +100,6 @@ storage3==0.12.0
 StrEnum==0.4.15
 supabase==2.16.0
 supafunc==0.10.1
-textract==1.6.5
 threadpoolctl==3.6.0
 tqdm==4.67.1
 typing-inspection==0.4.0
