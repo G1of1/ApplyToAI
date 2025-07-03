@@ -1,7 +1,8 @@
 import { useState } from 'react';
-//import { supabase } from '../../supbaseClient';
+import { toast } from 'sonner';
 import useGetSavedFeedback from '../../hooks/feedback/useGetFeedback';
-//import { toast } from 'sonner';
+import useDeleteFeedback from '../../hooks/feedback/useDeleteFeedback';
+import Spinner from '../../components/skeleton/Spinner';
 
 interface FeedbackEntry {
   id: string;
@@ -13,21 +14,33 @@ interface FeedbackEntry {
 
 export default function SavedLettersPage() {
   const [activeTab, setActiveTab] = useState<'CoverLetterFeedback' | 'ResumeFeedback'>('CoverLetterFeedback');
+  const [showModal, setShowModal] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const { feedbacks, isLoading } = useGetSavedFeedback();
+  const { feedbacks, isLoading, refetch } = useGetSavedFeedback();
+  const { deleteFeedback, isLoading: isDeleting } = useDeleteFeedback();
 
-  
-  /*const handleDelete = async (id: string) => {
-  if (!id) return;
-  const { error } = await supabase.from("feedbacks").delete().eq("id", id);
-  if (!error) {
-    refetch(); // re-fetch data
-  } else {
-    toast.error("Failed to delete feedback...😥")
-    console.error("Failed to delete feedback:", error);
-  }
-};*/
+  const handleDelete = async () => {
+    if (!selectedId) return;
+    deleteFeedback(
+      { id: selectedId },
+      {
+        onSuccess: (data) => {
+          toast.success(data);
+          setShowModal(false);
+          refetch();
+        },
+        onError: () => {
+          toast.error('Failed to delete feedback.');
+        },
+      }
+    );
+  };
 
+  const openModal = (id: string) => {
+    setSelectedId(id);
+    setShowModal(true);
+  };
 
   const filteredFeedback = feedbacks.filter((entry: FeedbackEntry) => entry.type === activeTab);
 
@@ -40,7 +53,7 @@ export default function SavedLettersPage() {
           className={`px-4 py-2 rounded-l-lg ${activeTab === 'CoverLetterFeedback' ? 'bg-blue-600' : 'bg-gray-700'}`}
           onClick={() => setActiveTab('CoverLetterFeedback')}
         >
-          Cover Letters
+          Cover Letter Feedback
         </button>
         <button
           className={`px-4 py-2 rounded-r-lg ${activeTab === 'ResumeFeedback' ? 'bg-blue-600' : 'bg-gray-700'}`}
@@ -61,10 +74,41 @@ export default function SavedLettersPage() {
               <div className="text-sm text-gray-400 mb-2">
                 Saved on: {new Date(entry.created_at).toLocaleString()}
               </div>
-              <pre className="whitespace-pre-wrap text-sm mb-2">{entry.feedback}</pre>
+              <pre className="whitespace-pre-wrap text-sm mb-2 font-poppins">{entry.feedback}</pre>
+              <button
+                className="text-red-500 hover:underline text-sm"
+                onClick={() => openModal(entry.id)}
+              >
+                Delete
+              </button>
             </li>
           ))}
         </ul>
+      )}
+
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+          <div className="bg-gray-900 p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 className="text-lg font-bold mb-4">Are you sure?</h2>
+            <p className="text-sm text-gray-300 mb-6">This will permanently delete this feedback.</p>
+            <div className="flex justify-end space-x-3">
+              <button
+                className="px-4 py-2 bg-gray-600 rounded hover:bg-gray-500"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-600 rounded hover:bg-red-500"
+                onClick={handleDelete}
+                disabled={isDeleting}
+              >
+                {isDeleting ? <div className="flex flex-col items-center justify-center"><Spinner /></div> : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

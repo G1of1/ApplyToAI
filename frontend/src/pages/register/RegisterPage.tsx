@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "../../supbaseClient";
+import Spinner from "../../components/skeleton/Spinner";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -88,7 +89,7 @@ const RegisterPage = () => {
             disabled={loading}
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 font-semibold transition"
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? <div className="flex flex-col items-center justify-center"><Spinner /></div> : "Register"}
           </button>
         </form>
 

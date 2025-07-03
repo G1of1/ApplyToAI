@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supbaseClient';
 import { toast } from 'sonner';
+import Spinner from '../../components/skeleton/Spinner';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -56,7 +57,7 @@ const LoginPage = () => {
         className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
         disabled={loading}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? <div className="flex flex-col items-center justify-center"><Spinner /></div> : "Login"}
           </button>
       </form>
       <p className="text-sm text-center mt-4 text-gray-300">

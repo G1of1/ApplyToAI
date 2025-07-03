@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../supbaseClient";
 import { toast } from "sonner";
+import Spinner from "../../components/skeleton/Spinner";
 
 export default function AccountSettings() {
   const [email, setEmail] = useState("");
@@ -75,7 +76,7 @@ export default function AccountSettings() {
           onClick={handlePasswordUpdate}
           className="mt-3 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
         >
-          {loading ? "Updating..." : "Update Password"}
+          {loading ? <div className="flex flex-col items-center justify-center"><Spinner /></div> : "Update Password"}
         </button>
       </div>
     </div>
