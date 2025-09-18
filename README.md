@@ -18,7 +18,7 @@
 
 ## 🛠️ Tech Stack  
 - **Frontend:** React (Vite), TypeScript, Tailwind CSS  
-- **Backend:** Flask, SQLAlchemy, Supabase, PostgreSQL  
+- **Backend:** Flask, Supabase, PostgreSQL  
 - **AI Engine:** Google **Gemini 2.0 API**  
 
 ---
